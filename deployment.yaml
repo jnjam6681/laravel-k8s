@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-deployment
+  namespace: default
+  labels:
+    app: laravel-deployment
+    tier: frontend
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: laravel-pod
+  template:
+    metadata:
+      labels:
+        app: laravel-pod
+    spec:
+      containers:
+        - name: laravel
+          image: jnjam6681/laravel-k8s:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: laravel-port
+            containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "150m"
+          envFrom:
+            - configMapRef:
+                name: laravel-configmap
+          livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            httpGet:
+              path: /
+              port: laravel-port
+          readinessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            httpGet:
+              path: /
+              port: laravel-port
+      initContainers:
+        - name: init-sysctl
+          image: busybox
+          command:
+          - /bin/sh
+          - -c
+          - |
+            sysctl -w net.core.somaxconn=32768
+          securityContext:
+            privileged: true

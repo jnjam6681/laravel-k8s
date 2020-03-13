@@ -38,6 +38,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: laravel-configmap
+          envFrom:
+            - secretRef:
+                name: laravel-secret
           livenessProbe:
             initialDelaySeconds: 15
             periodSeconds: 10

@@ -9,10 +9,10 @@ kubectl create configmap laravel-configmap --from-file=config/nginx.conf
 ## Secret
 ##### Create Secret from env file
 ```
-kubectl create secret generic person --from-env-file=.test-secret
+kubectl create secret generic laravel-secret --from-env-file=.test-secret
 ```
 
 ##### Update Secret
 ```
-kubectl create secret generic laravel --from-env-file=.env --dry-run -o yaml | kubectl apply -f -
+kubectl create secret generic laravel-secret --from-env-file=env-example --dry-run -o yaml | kubectl apply -f -
 ```

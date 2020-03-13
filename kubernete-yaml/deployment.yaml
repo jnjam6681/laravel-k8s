@@ -35,9 +35,9 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "150m"
-          envFrom:
-            - configMapRef:
-                name: laravel-configmap
+          volumeMounts:
+          - name: config-nginx
+            mountPath: /etc/nginx/conf.d
           envFrom:
             - secretRef:
                 name: laravel-secret
@@ -63,3 +63,10 @@ spec:
             sysctl -w net.core.somaxconn=32768
           securityContext:
             privileged: true
+      volumes:
+      - name: config-nginx
+        configMap:
+          name: laravel-configmap
+          items:
+          - key: config
+            path: default.conf

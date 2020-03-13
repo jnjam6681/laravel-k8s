@@ -1,5 +1,10 @@
 # Laravel K8s
 
+## Restart Resource
+```
+kubectl rollout restart deployment/laravel-deployment
+```
+
 ## Configmap
 ##### Create ConfigMaps from files
 ```
@@ -22,7 +27,7 @@ kubectl create secret generic laravel-secret --from-env-file=config/env-example
 kubectl create secret generic laravel-secret --from-env-file=config/env-example --dry-run -o yaml | kubectl apply -f -
 ```
 
-##### Encode Secret
+##### Encode Secret Before Set Secret in yaml
 ```
 echo -n ‘hello’ | base64
 ```

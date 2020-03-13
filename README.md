@@ -16,3 +16,13 @@ kubectl create secret generic laravel-secret --from-env-file=.test-secret
 ```
 kubectl create secret generic laravel-secret --from-env-file=env-example --dry-run -o yaml | kubectl apply -f -
 ```
+
+##### Encode Secret
+```
+echo -n ‘hello’ | base64
+```
+
+##### Decode Secret
+```
+echo -n ‘glhs4=’ | base64 —decode
+```
